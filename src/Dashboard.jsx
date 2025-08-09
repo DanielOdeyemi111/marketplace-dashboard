@@ -3,7 +3,7 @@ import './styles.css';
 import Listing from './Listing';
 
 function Dashboard() {
-  const [activeSection, setActiveSection] = useState('home');
+  const [activeSection, setActiveSection] = useState('inicio');
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -25,7 +25,7 @@ function Dashboard() {
         setListings(formattedListings);
         setLoading(false);
       } catch (err) {
-        setError('Failed to fetch listings');
+        setError('No se pudieron cargar los anuncios');
         setLoading(false);
       }
     };
@@ -63,19 +63,19 @@ function Dashboard() {
   }, [isMenuOpen]);
 
   const renderContent = () => {
-    if (loading) return <p className="loading">Loading...</p>;
+    if (loading) return <p className="loading">Cargando...</p>;
     if (error) return <p className="error">{error}</p>;
 
     switch (activeSection) {
-      case 'home':
+      case 'inicio':
         return (
           <>
-            <h2 className="welcome-title">Welcome to Your Marketplace</h2>
-            <p className="welcome-text">Explore listings and manage your items here.</p>
+            <h2 className="welcome-title">Bienvenido a tu Mercado</h2>
+            <p className="welcome-text">Explora anuncios y gestiona tus artículos aquí.</p>
             <input
               type="text"
               className="search-input"
-              placeholder="Search listings..."
+              placeholder="Buscar anuncios..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -91,14 +91,14 @@ function Dashboard() {
             </div>
           </>
         );
-      case 'listings':
+      case 'anuncios':
         return (
           <div className="listings-container">
-            <h2 className="section-title">All Listings</h2>
+            <h2 className="section-title">Todos los Anuncios</h2>
             <input
               type="text"
               className="search-input"
-              placeholder="Search listings..."
+              placeholder="Buscar anuncios..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -112,36 +112,36 @@ function Dashboard() {
             ))}
           </div>
         );
-      case 'profile':
+      case 'perfil':
         return (
           <div>
-            <h2 className="section-title">Your Profile</h2>
-            <p className="profile-text">Manage your account and listings here.</p>
+            <h2 className="section-title">Tu Perfil</h2>
+            <p className="profile-text">Gestiona tu cuenta y anuncios aquí.</p>
           </div>
         );
       default:
-        return <h2>Section Not Found</h2>;
+        return <h2>Sección No Encontrada</h2>;
     }
   };
 
   return (
     <div className="dashboard">
       <header className="header">
-        <h1 className="header-title">Marketplace Dashboard</h1>
+        <h1 className="header-title">Tablero de Mercado</h1>
         <div className="menu-container" ref={menuRef}>
-          <button className="menu-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
-            Menu
+          <button className="menu-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Menú">
+            Menú
           </button>
           {isMenuOpen && (
             <div className="dropdown-menu">
-              <div className={`nav-item ${activeSection === 'home' ? 'active' : ''}`} onClick={() => handleNavClick('home')}>
-                Home
+              <div className={`nav-item ${activeSection === 'inicio' ? 'active' : ''}`} onClick={() => handleNavClick('inicio')}>
+                Inicio
               </div>
-              <div className={`nav-item ${activeSection === 'listings' ? 'active' : ''}`} onClick={() => handleNavClick('listings')}>
-                Listings
+              <div className={`nav-item ${activeSection === 'anuncios' ? 'active' : ''}`} onClick={() => handleNavClick('anuncios')}>
+                Anuncios
               </div>
-              <div className={`nav-item ${activeSection === 'profile' ? 'active' : ''}`} onClick={() => handleNavClick('profile')}>
-                Profile
+              <div className={`nav-item ${activeSection === 'perfil' ? 'active' : ''}`} onClick={() => handleNavClick('perfil')}>
+                Perfil
               </div>
             </div>
           )}
