@@ -1,0 +1,10 @@
+import './styles.css';
+import Dashboard from './Dashboard';
+
+function App() {
+  return (
+    <Dashboard />
+  );
+}
+
+export default App;
