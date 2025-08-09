@@ -23,7 +23,7 @@ body {
   position: relative;
   z-index: 20;
   display: flex;
-  justify-content: space-between; /* Restore space-between for title and menu on PC */
+  justify-content: space-between; /* Distribute space between title and menu */
   align-items: center;
 }
 
@@ -32,16 +32,14 @@ body {
   font-size: 1.875rem;
   font-weight: 600;
   letter-spacing: 0.5px;
-  flex-grow: 1; /* Allow title to take space on PC */
+  flex-grow: 1; /* Allow title to take available space */
   text-align: left;
-  padding-left: 1rem; /* Add padding to prevent overlap on PC */
+  padding-left: 1rem; /* Add padding to prevent overlap */
 }
 
 .menu-container {
-  position: absolute;
-  right: 1rem; /* Move menu back to the right on PC */
-  top: 50%;
-  transform: translateY(-50%);
+  position: relative; /* Remove absolute positioning */
+  margin-left: 1rem; /* Move menu to the left */
 }
 
 .menu-toggle {
@@ -61,7 +59,7 @@ body {
 .dropdown-menu {
   position: absolute;
   top: 100%;
-  right: 0; /* Align dropdown to the right on PC */
+  left: 0; /* Align dropdown to the left */
   background-color: #ffffff;
   border: 1px solid #e5e7eb;
   border-radius: 4px;
@@ -170,7 +168,7 @@ body {
 
 @media (max-width: 768px) {
   .header {
-    flex-direction: column; /* Keep title and menu stacked on mobile */
+    flex-direction: column; /* Stack title and menu on mobile */
     padding: 1rem; /* Reduce padding for smaller screens */
   }
   .header-title {
