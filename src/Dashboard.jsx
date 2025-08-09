@@ -8,9 +8,8 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Default to true for desktop
-  const sidebarRef = useRef(null);
-  const toggleRef = useRef(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null);
 
   useEffect(() => {
     const fetchListings = async () => {
@@ -40,21 +39,19 @@ function Dashboard() {
 
   const handleNavClick = (section) => {
     setActiveSection(section);
-    if (window.matchMedia('(max-width: 768px)').matches) {
-      setIsSidebarOpen(false);
-    }
+    setIsMenuOpen(false); // Close menu after selection
   };
 
   const handleClickOutside = (event) => {
-    if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
-      setIsSidebarOpen(false);
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setIsMenuOpen(false);
     }
   };
 
   useEffect(() => {
-    if (isSidebarOpen) {
+    if (isMenuOpen) {
       document.addEventListener('mousedown', handleClickOutside);
-      document.addEventListener('touchstart', handleClickOutside); // Explicit touch support
+      document.addEventListener('touchstart', handleClickOutside);
     } else {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('touchstart', handleClickOutside);
@@ -63,18 +60,7 @@ function Dashboard() {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('touchstart', handleClickOutside);
     };
-  }, [isSidebarOpen]);
-
-  const handleToggleClick = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    console.log('Toggle clicked!', 'New state:', !isSidebarOpen, 'Width:', window.innerWidth, 'Target:', event.target.tagName);
-    setIsSidebarOpen(prev => {
-      const newState = !prev;
-      console.log('State updated to:', newState);
-      return newState;
-    });
-  };
+  }, [isMenuOpen]);
 
   const renderContent = () => {
     if (loading) return <p className="loading">Loading...</p>;
@@ -139,38 +125,29 @@ function Dashboard() {
   };
 
   return (
-    <div className="dashboard" onClick={(e) => console.log('Dashboard click on:', e.target.tagName)}>
+    <div className="dashboard">
       <header className="header">
         <h1 className="header-title">Marketplace Dashboard</h1>
-        <button ref={toggleRef} className="menu-toggle" onClick={handleToggleClick} onTouchStart={handleToggleClick} aria-label="Toggle menu">
-          ☰
-        </button>
+        <div className="menu-container" ref={menuRef}>
+          <button className="menu-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
+            Menu
+          </button>
+          {isMenuOpen && (
+            <div className="dropdown-menu">
+              <div className={`nav-item ${activeSection === 'home' ? 'active' : ''}`} onClick={() => handleNavClick('home')}>
+                Home
+              </div>
+              <div className={`nav-item ${activeSection === 'listings' ? 'active' : ''}`} onClick={() => handleNavClick('listings')}>
+                Listings
+              </div>
+              <div className={`nav-item ${activeSection === 'profile' ? 'active' : ''}`} onClick={() => handleNavClick('profile')}>
+                Profile
+              </div>
+            </div>
+          )}
+        </div>
       </header>
       <div className="container">
-        <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`} ref={sidebarRef}>
-          <nav>
-            <ul>
-              <li
-                className={`nav-item ${activeSection === 'home' ? 'active' : ''}`}
-                onClick={() => handleNavClick('home')}
-              >
-                Home
-              </li>
-              <li
-                className={`nav-item ${activeSection === 'listings' ? 'active' : ''}`}
-                onClick={() => handleNavClick('listings')}
-              >
-                Listings
-              </li>
-              <li
-                className={`nav-item ${activeSection === 'profile' ? 'active' : ''}`}
-                onClick={() => handleNavClick('profile')}
-              >
-                Profile
-              </li>
-            </ul>
-          </nav>
-        </div>
         <main className="main-content">{renderContent()}</main>
       </div>
     </div>
