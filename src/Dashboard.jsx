@@ -54,7 +54,7 @@ function Dashboard() {
   useEffect(() => {
     if (isSidebarOpen) {
       document.addEventListener('mousedown', handleClickOutside);
-      document.addEventListener('touchstart', handleClickOutside); // Support touch
+      document.addEventListener('touchstart', handleClickOutside); // Explicit touch support
     } else {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('touchstart', handleClickOutside);
@@ -66,12 +66,12 @@ function Dashboard() {
   }, [isSidebarOpen]);
 
   const handleToggleClick = (event) => {
-    event.preventDefault(); // Prevent default behavior
-    event.stopPropagation(); // Stop event bubbling
-    console.log('Toggle clicked, state:', !isSidebarOpen, 'Width:', window.innerWidth, 'Target:', event.target, 'Error:', event.type);
+    event.preventDefault();
+    event.stopPropagation();
+    console.log('Toggle clicked!', 'New state:', !isSidebarOpen, 'Width:', window.innerWidth, 'Target:', event.target.tagName);
     setIsSidebarOpen(prev => {
       const newState = !prev;
-      console.log('New state set to:', newState);
+      console.log('State updated to:', newState);
       return newState;
     });
   };
@@ -139,10 +139,10 @@ function Dashboard() {
   };
 
   return (
-    <div className="dashboard" onClick={(e) => console.log('Dashboard click:', e.target)}>
+    <div className="dashboard" onClick={(e) => console.log('Dashboard click on:', e.target.tagName)}>
       <header className="header">
         <h1 className="header-title">Marketplace Dashboard</h1>
-        <button ref={toggleRef} className="menu-toggle" onClick={handleToggleClick} aria-label="Toggle menu">
+        <button ref={toggleRef} className="menu-toggle" onClick={handleToggleClick} onTouchStart={handleToggleClick} aria-label="Toggle menu">
           ☰
         </button>
       </header>

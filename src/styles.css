@@ -4,7 +4,7 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f3f4f6;
   -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation; /* Apply to body for global touch support */
+  touch-action: manipulation;
 }
 
 .dashboard {
@@ -21,7 +21,7 @@ body {
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: relative;
-  z-index: 15; /* Lowered to allow toggle to sit above */
+  z-index: 15;
 }
 
 .header-title {
@@ -38,13 +38,13 @@ body {
   top: 50%;
   transform: translateY(-50%);
   font-size: 1.5rem;
-  background: rgba(255, 255, 255, 0.1); /* Slight background for visibility */
+  background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 4px;
   color: white;
   cursor: pointer;
-  padding: 1.25rem; /* Larger touch area */
-  z-index: 20; /* Above header */
+  padding: 1.5rem; /* Even larger touch area */
+  z-index: 20;
   touch-action: manipulation;
   -webkit-user-select: none;
   user-select: none;
